@@ -34,20 +34,25 @@ set(qtvk_HEADERS
     ${qtvk_HEADERS_audio}
     ${qtvk_HEADERS_friends})
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
+
 set(QT_USE_QTWEBKIT TRUE)
-find_package(Qt4 REQUIRED)
+find_package(Qt4 COMPONENTS QtCore QtNetwork QtWebkit REQUIRED)
 include(${QT_USE_FILE})
 add_definitions(${QT_DEFINITIONS})
+
+find_package(QJSON REQUIRED)
+include_directories(${QJSON_INCLUDE_DIR})
 
 qt4_wrap_cpp(qtvk_MOC_SOURCES ${qtvk_HEADERS})
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
-#link_directories(.)
+link_directories(${QJSON_LIBRARY_DIRS})
 
 add_library(qtvk_shared SHARED ${qtvk_HEADERS} ${qtvk_SOURCES} ${qtvk_MOC_SOURCES})
 set_target_properties(qtvk_shared
                       PROPERTIES OUTPUT_NAME qtvk)
-target_link_libraries(qtvk_shared ${QT_LIBRARIES} qjson)
+target_link_libraries(qtvk_shared ${QT_LIBRARIES} ${QJSON_LIBRARIES})
 
 install(TARGETS qtvk_shared
         LIBRARY DESTINATION lib
@@ -57,7 +62,7 @@ if(BUILD_STATIC)
   add_library(qtvk_static STATIC ${qtvk_HEADERS} ${qtvk_SOURCES} ${qtvk_MOC_SOURCES})
   set_target_properties(qtvk_static
                         PROPERTIES OUTPUT_NAME qtvk)
-  target_link_libraries(qtvk_static ${QT_LIBRARIES} qjson)
+  target_link_libraries(qtvk_static ${QT_LIBRARIES} ${QJSON_LIBRARIES})
   install(TARGETS qtvk_static
           LIBRARY DESTINATION lib
           ARCHIVE DESTINATION lib)
