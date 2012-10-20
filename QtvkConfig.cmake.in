@@ -1,0 +1,13 @@
+# - Config file for the Qtvk
+# It defines the following variables
+#  Qtvk_INCLUDE_DIR - include directories for Qtvk
+#  Qtvk_LIBRARIES   - libraries to link against
+
+get_filename_component(Qtvk_CMAKE_DIR ${CMAKE_CURRENT_LIST_FILE} PATH)
+
+set(Qtvk_LIBRARIES qtvk)
+set(Qtvk_INCLUDE_DIR "@INSTALL_INCLUDE_DIR@")
+message("-- Found Qtvk Libraries: " ${Qtvk_LIBRARIES})
+message("-- Found Qtvk Includes: " ${Qtvk_INCLUDE_DIR})
+
+#include(${Qtvk_CMAKE_DIR}/qtvkTargets.cmake)

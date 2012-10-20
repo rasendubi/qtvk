@@ -2,6 +2,12 @@ cmake_minimum_required(VERSION 2.8)
 
 project(qtvk)
 
+set(qtvk_MAJOR_VERSION 0)
+set(qtvk_MINOR_VERSION 1)
+set(qtvk_PATCH_VERSION 2)
+set(qtvk_VERSION
+  ${qtvk_MAJOR_VERSION}.${qtvk_MINOR_VERSION}.${qtvk_PATCH_VERSION})
+
 set(qtvk_SOURCES
         src/friends/get.cpp
         src/qpcookiejar.cpp
@@ -54,9 +60,43 @@ set_target_properties(qtvk_shared
                       PROPERTIES OUTPUT_NAME qtvk)
 target_link_libraries(qtvk_shared ${QT_LIBRARIES} ${QJSON_LIBRARIES})
 
+
+set(INSTALL_LIB_DIR lib CACHE PATH "Installation directory for libraries")
+set(INSTALL_BIN_DIR bin CACHE PATH "Installation directory for executables")
+set(INSTALL_INCLUDE_DIR include CACHE PATH
+  "Installation directory for header files")
+
+if(WIN32 AND NOT CYGWIN)
+  set(DEF_INSTALL_CMAKE_DIR Cmake)
+else()
+  set(DEF_INSTALL_CMAKE_DIR lib/cmake/qtvk)
+endif()
+set(INSTALL_CMAKE_DIR ${DEF_INSTALL_CMAKE_DIR} CACHE PATH
+  "Installation directory for CMake files")
+  
+foreach(p LIB BIN INCLUDE CMAKE)
+  set(var INSTALL_${p}_DIR)
+  if(NOT IS_ABSOLUTE "${${var}}")
+    set(${var} "${CMAKE_INSTALL_PREFIX}/${${var}}")
+  endif()
+endforeach()
+  
+export(TARGETS qtvk_shared
+  FILE "${PROJECT_BINARY_DIR}/qtvkLibraryDepends.cmake")
+export(PACKAGE qtvk)
+
+file(RELATIVE_PATH CONF_REL_INCLUDE_DIR 
+  "${INSTALL_CMAKE_DIR}" "${INSTALL_INCLUDE_DIR}")
+configure_file(QtvkConfig.cmake.in
+  "${PROJECT_BINARY_DIR}/QtvkConfig.cmake" @ONLY)
+
 install(TARGETS qtvk_shared
+        RUNTIME DESTINATION bin
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib)
+install(FILES
+  "${PROJECT_BINARY_DIR}/QtvkConfig.cmake"
+  DESTINATION "${INSTALL_CMAKE_DIR}" COMPONENT dev)
 
 if(BUILD_STATIC)
   add_library(qtvk_static STATIC ${qtvk_HEADERS} ${qtvk_SOURCES} ${qtvk_MOC_SOURCES})
@@ -69,17 +109,17 @@ if(BUILD_STATIC)
 endif(BUILD_STATIC)
 
 install(FILES ${qtvk_HEADERS}
-        DESTINATION include/qtvk)
+        DESTINATION include/qtvk COMPONENT dev)
 install(FILES ${qtvk_HEADERS_audio}
-        DESTINATION include/qtvk/audio)
+        DESTINATION include/qtvk/audio COMPONENT dev)
 install(FILES ${qtvk_HEADERS_friends}
-        DESTINATION include/qtvk/friends)
+        DESTINATION include/qtvk/friends COMPONENT dev)
         
 include(InstallRequiredSystemLibraries)
 
 set(CPACK_PACKAGE_NAME "libqtvk")
 set(CPACK_PACKAGE_VENDOR "Alexey Shmalko")
-set(CPACK_PACKAGE_VERSION "0.1.2")
+set(CPACK_PACKAGE_VERSION "${qtvk_VERSION}")
 set(CPACK_GENERATOR "DEB;TBZ2")
 
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Alexey Shmalko")
