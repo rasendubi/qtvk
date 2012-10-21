@@ -77,6 +77,7 @@ set(INSTALL_CMAKE_DIR ${DEF_INSTALL_CMAKE_DIR} CACHE PATH
 foreach(p LIB BIN INCLUDE CMAKE)
   set(var INSTALL_${p}_DIR)
   if(NOT IS_ABSOLUTE "${${var}}")
+    set(${var}_REL "${${var}}")
     set(${var} "${CMAKE_INSTALL_PREFIX}/${${var}}")
   endif()
 endforeach()
@@ -96,7 +97,7 @@ install(TARGETS qtvk_shared
         ARCHIVE DESTINATION lib)
 install(FILES
   "${PROJECT_BINARY_DIR}/QtvkConfig.cmake"
-  DESTINATION "${INSTALL_CMAKE_DIR}" COMPONENT dev)
+  DESTINATION "${INSTALL_CMAKE_DIR_REL}" COMPONENT dev)
 
 if(BUILD_STATIC)
   add_library(qtvk_static STATIC ${qtvk_HEADERS} ${qtvk_SOURCES} ${qtvk_MOC_SOURCES})
