@@ -50,7 +50,7 @@ QPCookieJar::~QPCookieJar()
   foreach( QNetworkCookie cook, cooks )
   {
     QByteArray arr = cook.toRawForm();
-#ifndef QT_NO_DEBUG
+#ifdef DEBUG_OUTPUT
     qDebug("\n");
     qDebug(arr);
 #endif

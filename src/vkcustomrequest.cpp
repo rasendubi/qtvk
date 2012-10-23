@@ -69,7 +69,7 @@ void VkCustomRequest::exec()
     temp.addQueryItem(d->params.key(*i), *i);
   
   d->reply = d->manager->get(QNetworkRequest(temp));
-#ifndef QT_NO_DEBUG
+#ifdef DEBUG_OUTPUT
   qDebug() << temp.toString();
 #endif
   connect(d->reply, SIGNAL(finished()), this, SLOT(slotDone()));
@@ -80,7 +80,7 @@ void VkCustomRequest::slotDone()
 {
   QJson::Parser parser;
   bool ok;
-#ifndef QT_NO_DEBUG
+#ifdef DEBUG_OUTPUT
   QString str = d->reply->readAll();
   qDebug() << "\n" << str;
   QByteArray arr(str.toStdString().c_str());
