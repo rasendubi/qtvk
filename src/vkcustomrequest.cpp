@@ -26,7 +26,11 @@
 #include <QStringList>
 #include <QUrl>
 
+#include <cassert>
+
 #include <qjson/parser.h>
+
+
 
 namespace Vk
 {
@@ -54,10 +58,7 @@ VkCustomRequest::VkCustomRequest(QString method, QMap< QString, QString > params
 
 VkCustomRequest::~VkCustomRequest()
 {
-  if( d->manager )
-    delete d->manager;
-  if( d->reply )
-    delete d->reply;
+  assert(d!=NULL);
   delete d;
 }
 
