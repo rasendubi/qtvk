@@ -4,7 +4,7 @@ project(qtvk)
 
 set(qtvk_MAJOR_VERSION 0)
 set(qtvk_MINOR_VERSION 1)
-set(qtvk_PATCH_VERSION 2)
+set(qtvk_PATCH_VERSION 3)
 set(qtvk_VERSION
   ${qtvk_MAJOR_VERSION}.${qtvk_MINOR_VERSION}.${qtvk_PATCH_VERSION})
 
