@@ -26,7 +26,11 @@
 #include <QStringList>
 #include <QUrl>
 
+#include <cassert>
+
 #include <qjson/parser.h>
+
+
 
 namespace Vk
 {
@@ -54,10 +58,7 @@ VkCustomRequest::VkCustomRequest(QString method, QMap< QString, QString > params
 
 VkCustomRequest::~VkCustomRequest()
 {
-  if( d->manager )
-    delete d->manager;
-  if( d->reply )
-    delete d->reply;
+  assert(d!=NULL);
   delete d;
 }
 
@@ -69,7 +70,7 @@ void VkCustomRequest::exec()
     temp.addQueryItem(d->params.key(*i), *i);
   
   d->reply = d->manager->get(QNetworkRequest(temp));
-#ifndef QT_NO_DEBUG
+#ifdef DEBUG_OUTPUT
   qDebug() << temp.toString();
 #endif
   connect(d->reply, SIGNAL(finished()), this, SLOT(slotDone()));
@@ -80,7 +81,7 @@ void VkCustomRequest::slotDone()
 {
   QJson::Parser parser;
   bool ok;
-#ifndef QT_NO_DEBUG
+#ifdef DEBUG_OUTPUT
   QString str = d->reply->readAll();
   qDebug() << "\n" << str;
   QByteArray arr(str.toStdString().c_str());

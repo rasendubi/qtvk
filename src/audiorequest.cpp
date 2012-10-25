@@ -43,7 +43,7 @@ void AudioRequest::requestFinished(QVariant result)
 {
   m_result = Vk::Audio::variantToAudioList(result.toMap()["response"].toList());
 
-#ifndef QT_NO_DEBUG
+#ifdef DEBUG_OUTPUT
   foreach( AudioFile f, m_result )
     qDebug() << f.title;
 #endif
