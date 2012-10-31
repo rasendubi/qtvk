@@ -9,36 +9,26 @@ set(qtvk_VERSION
   ${qtvk_MAJOR_VERSION}.${qtvk_MINOR_VERSION}.${qtvk_PATCH_VERSION})
 
 set(qtvk_SOURCES
-        src/friends/get.cpp
-        src/qpcookiejar.cpp
-        src/audio/search.cpp
-        src/audio/getcount.cpp
-        src/audio/getbyid.cpp 
-        src/audio/audiotools.cpp
-        src/audio/get.cpp
-        src/audiorequest.cpp
-        src/tools.cpp
-        src/vkauth.cpp
-        src/vkcustomrequest.cpp)
-set(qtvk_HEADERS_main
-        src/qpcookiejar.h
-        src/qtvknamespace.h
-        src/audiofile.h
-        src/audiorequest.h
-        src/user.h
-        src/vkauth.h
-        src/vkcustomrequest.h)
-set(qtvk_HEADERS_audio
-        src/audio/search.h
-        src/audio/getcount.h
-        src/audio/getbyid.h
-        src/audio/get.h)
-set(qtvk_HEADERS_friends
-        src/friends/get.h)
+        src/accessmanager.cpp
+        
+        src/request.cpp
+        src/customrequest.cpp
+        src/audiolistrequest.cpp
+        
+        src/reply.cpp
+        src/audiolistreply.cpp
+)
 set(qtvk_HEADERS
-    ${qtvk_HEADERS_main}
-    ${qtvk_HEADERS_audio}
-    ${qtvk_HEADERS_friends})
+        src/audio.h
+        src/accessmanager.h
+        
+        src/request.h
+        src/customrequest.h
+        src/audiolistrequest.h
+        
+        src/reply.h
+        src/audiolistreply.h
+)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
@@ -111,10 +101,6 @@ endif(BUILD_STATIC)
 
 install(FILES ${qtvk_HEADERS}
         DESTINATION include/qtvk COMPONENT dev)
-install(FILES ${qtvk_HEADERS_audio}
-        DESTINATION include/qtvk/audio COMPONENT dev)
-install(FILES ${qtvk_HEADERS_friends}
-        DESTINATION include/qtvk/friends COMPONENT dev)
         
 include(InstallRequiredSystemLibraries)
 

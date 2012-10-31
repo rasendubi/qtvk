@@ -17,18 +17,25 @@
  *    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#include "reply.h"
 
-#include "tools.h"
-
-#include <QString>
-
-namespace Vk
+QtVk::Reply::Reply(QObject *parent)
+  : QObject(parent)
 {
-  QString encode(QString str)
-  {
-    return str.replace("&#33;", "!").replace("&#39;", "'")
-              .replace("&amp;", "&").replace("$lt;",  "<")
-              .replace("&gt;",  ">");
-  }
+
 }
-  
+
+QtVk::Reply::~Reply()
+{
+
+}
+
+QString QtVk::Reply::encode(const QString& str)
+{
+  QString res = str;
+  return res.replace("&#33;", "!")
+            .replace("&#39;", "'")
+            .replace("&amp;", "&")
+            .replace("$lt;",  "<")
+            .replace("&gt;",  ">");
+}

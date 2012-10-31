@@ -17,20 +17,16 @@
  *    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#include "request.h"
 
-#ifndef TOOLS_H
-#define TOOLS_H
-
-class QString;
-
-namespace Vk
+QtVk::Request::Request(QObject* parent)
+  : QObject(parent)
 {
-  /**
-   * @brief convert ampersand converted text to plain text
-   * @param str String to be converted
-   * @return converted string
-   */
-  QString encode(QString str);
+
 }
 
-#endif //TOOLS_H
+QtVk::Request::~Request()
+{
+
+}
+

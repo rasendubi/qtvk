@@ -17,57 +17,35 @@
  *    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef AUDIOFILE_H
-#define AUDIOFILE_H
+#ifndef QTVK_CUSTOMREQUEST_H
+#define QTVK_CUSTOMREQUEST_H
 
-#include <QString>
-#include <QUrl>
+#include "request.h"
 
-namespace Vk
+namespace QtVk
 {
-  struct AudioFile
+
+  class QTVK_EXPORT CustomRequest : public Request
   {
-    /**
-     * @brief audio id
-     */
-    int aid;
+    Q_OBJECT
+
+  public:
+    explicit CustomRequest(QObject* parent = 0);
+    virtual ~CustomRequest();
     
-    /**
-     * @brief owner id
-     */
-    int oid;
-    
-    /**
-     * @brief song artist
-     */
-    QString artist;
-    
-    /**
-     * @brief song title
-     */
-    QString title;
-    
-    /**
-     * @brief song duration (in seconds)
-     */
-    int duration;
-    
-    /**
-     * @brief url for downloading
-     */
-    QUrl url;
-    
-    /**
-     * @brief lyrics id.
-     * Can be returned by Audio::GetLyrics
-     */
-    int lyricsId;
-    
-    /**
-     * @brief album id;
-     */
-    int album;
+    virtual QString method() const;
+    virtual QMap<QString, QString> params() const;
+      
+  public slots:
+    void setMethod(const QString& method);
+    void setParams(const QMap<QString, QString>& params);
+      
+  private:
+    struct CustomRequestPrivate;
+    CustomRequestPrivate *d;
+      
   };
+
 }
 
-#endif //AUDIOFILE_H
+#endif // QTVK_CUSTOMREQUEST_H
