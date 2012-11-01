@@ -34,6 +34,8 @@ namespace QtVk
   public:
     explicit AudioListReply(QObject* parent = 0);
     
+    QList<Audio> result() const;
+    
   signals:
     void finished(const QtVk::AudioList& reply);
     

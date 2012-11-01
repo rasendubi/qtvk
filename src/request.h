@@ -30,6 +30,7 @@ namespace QtVk
 
   class QTVK_EXPORT Request : public QObject
   {
+    Q_OBJECT
 
   public:
       explicit Request(QObject* parent = 0);

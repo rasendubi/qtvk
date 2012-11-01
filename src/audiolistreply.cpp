@@ -23,7 +23,7 @@
 
 struct QtVk::AudioListReply::AudioListReplyPrivate
 {
-  
+  QList<Audio> result;
 };
 
 QtVk::AudioListReply::AudioListReply(QObject* parent)
@@ -33,10 +33,15 @@ QtVk::AudioListReply::AudioListReply(QObject* parent)
 
 }
 
+QList< QtVk::Audio > QtVk::AudioListReply::result() const
+{
+  return d->result;
+}
+
 void QtVk::AudioListReply::requestFinished(const QVariant& reply)
 {
   QVariantList var = reply.toMap()["response"].toList();
-  QList<Audio> result;
+  d->result.clear();
   foreach( QVariant audio, var )
   {
     QVariantMap mp = audio.toMap();
@@ -51,9 +56,9 @@ void QtVk::AudioListReply::requestFinished(const QVariant& reply)
       a.url = mp.value("url").toUrl();
       a.lyricsId = mp.value("lyrics_id", "").toInt();
       a.album = mp.value("album", QVariant(0)).toInt();
-      result.push_back(a);
+      d->result.push_back(a);
     }
   }
-  emit finished(result);
+  emit finished(d->result);
 }
 

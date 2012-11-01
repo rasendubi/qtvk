@@ -14,17 +14,21 @@ set(qtvk_SOURCES
         src/request.cpp
         src/customrequest.cpp
         src/audiolistrequest.cpp
+        src/audiogetrequest.cpp
         
         src/reply.cpp
         src/audiolistreply.cpp
 )
 set(qtvk_HEADERS
+        src/qtvkglobal.h
+
         src/audio.h
         src/accessmanager.h
         
         src/request.h
         src/customrequest.h
         src/audiolistrequest.h
+        src/audiogetrequest.h
         
         src/reply.h
         src/audiolistreply.h

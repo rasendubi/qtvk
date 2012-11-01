@@ -25,8 +25,11 @@
 namespace QtVk
 {
   
-  class QTVK_EXPORT AudioListRequest : Request
+  class QTVK_EXPORT AudioListRequest : public Request
   {
+    Q_OBJECT
+    
+  public:
     explicit AudioListRequest(QObject* parent = 0);
   };
 
