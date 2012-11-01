@@ -19,6 +19,7 @@
 
 #include "accessmanager.h"
 
+#include <QDebug>
 #include <QNetworkAccessManager>
 #include <QWebFrame>
 #include <QWebPage>
@@ -57,6 +58,8 @@ QWebPage* QtVk::AccessManager::authentication(QString appId, QString scope, QStr
                       .arg(scope)
                       .arg(display);
                       
+  qDebug() << url;
+                      
   d->loginPage = new QWebPage(this);
   d->loginPage->setNetworkAccessManager(networkAccessManager());
   
@@ -73,11 +76,11 @@ void QtVk::AccessManager::authLoadFinished(bool ok)
   if( !ok )
   {
     emit authCanceled();
+    
+    if( d->loginPage && d->loginPage->parent() == this )
+      d->loginPage->deleteLater();
+    d->loginPage = 0;
   }
-  
-  if( d->loginPage && d->loginPage->parent() == this )
-    d->loginPage->deleteLater();
-  d->loginPage = 0;
 }
 
 void QtVk::AccessManager::authUrlChanged(const QUrl& url)
@@ -96,11 +99,11 @@ void QtVk::AccessManager::authUrlChanged(const QUrl& url)
     }
     else
       emit authCanceled();
-  }
-  
-  if( d->loginPage && d->loginPage->parent() == this )
-    d->loginPage->deleteLater();
-  d->loginPage = 0;
+    
+    if( d->loginPage && d->loginPage->parent() == this )
+      d->loginPage->deleteLater();
+    d->loginPage = 0;
+  } 
 }
 
 QNetworkAccessManager* QtVk::AccessManager::networkAccessManager() const
